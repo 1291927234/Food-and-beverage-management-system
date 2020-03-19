@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"content="width-device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"><!-- 界面设定，页面大小屏幕等宽，初始缩放比例，允许缩放最小、最大比例，是否可以缩放 -->
+	<title>餐饮查询系统-响应式</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<style>
+		figure img:hover{
+				opacity: 0.5;
+			}
+	</style>
+</head>
+<body>
+	<%- include('head.ejs')%>
+<div id="headline">
+	<img src="img/1.png" alt="">
+	<hgroup>
+		<h2>美食简介</h2>
+		<h3>介绍各种最新美食信息、美食攻略等</h3>
+	</hgroup>
+</div>
+<div id="container">
+	<%- include('index_slide_right.ejs')%>
+	<div class="list information">
+		<h2 style="margin:0 0 20px 0">小吃快餐</h2>     
+		<% if(Eatplaces.length){ %>
+			<%for(var i =0 ;i < Eatplaces.length ;i++){%> 
+        <figure class="tour">
+        	<a href="/fooddetail/<%= Eatplaces[i].id %>"><img src="<%=Eatplaces[i].coverimg%>" alt="加载失败"></a>
+            <figcaption>
+            	<article>
+                	<header>
+                    	<hgroup>
+                        	<h2><%=Eatplaces[i].title%></h2>
+                            <h3><%=Eatplaces[i].characteristic%></h3>
+                        </hgroup>
+                    </header>
+                    <ol class="md-hidden">
+                    	<li><mark>本店地址</mark><%=Eatplaces[i].location%></li>
+                        <li><mark>优惠日</mark>每月5号，25号</li>
+                    </ol>
+                    <div class="buy">
+                    	<div class="price">￥<strong><%=Eatplaces[i].spend%></strong> <s>￥<%=Eatplaces[i].spend%>+100</s></div>
+                        <div class="reserve md-hidden"><a href="###">立即抢购</a></div>
+                    </div>
+                    <div class="type">关于本店</div>
+                    <div class="disc xs-hidden"><span>6.7折</span></div>
+                    <footer class="md-hidden">本店信息由流口水官网赞助提供，截止于<time>2020-1-1</time></footer>
+                </article>
+            </figcaption>
+		</figure>
+		<%}%>
+	<%}%>   
+	</div>
+	</div>
+ </div>
+ <%-include('footer.ejs')%>
+</body>
+</html>

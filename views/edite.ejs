@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <script src="/js/editeData.js"></script>
+    <!-- <script src="js/addData.js" ></script> -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>编辑餐饮数据</title>
+    <style>
+        #div0{
+            padding: 50px;
+            width: 900px;
+            margin: 0 auto;  
+            background-color:goldenrod;
+            box-shadow: 5px 5px  5px gray;
+        }
+        body{
+            background-image: url(/img/timg.jfif);
+            background-repeat: no-repeat;
+            
+        }
+    </style>
+
+</head>
+<body>
+    <div id="div0">
+        <input type="hidden" class="form-control" id="_id" placeholder="_id" value="<%= Eatplaces[0].id%>" >
+        
+        <div class="form-group">
+            <label for="type">Type（餐饮种类）</label>
+            <input type="text" class="form-control" id="type" placeholder="type" value="<%= Eatplaces[0].type%>">
+        </div>
+
+        <div class="form-group">
+            <label for="title">Title（商店名称）</label>
+            <input type="text" class="form-control" id="title" placeholder="title" value="<%= Eatplaces[0].title%>">
+        </div>
+        <div class="form-group">
+            <label for="salenum">SaleNum（季度销量）</label>
+            <input type="text" class="form-control" id="salenum" placeholder="salenum"value="<%= Eatplaces[0].salenum%>">
+        </div>
+        <div class="form-group">
+            <label for="location">Location（餐饮位置）</label>
+            <input type="text" class="form-control" id="location" placeholder="location" value="<%= Eatplaces[0].location%>">
+        </div>
+        <div class="form-group">
+            <label for="details">Details(餐饮介绍详细信息)</label>
+            <textarea class="form-control" rows="3" id="details" ><%= Eatplaces[0].details%></textarea>
+        </div>
+        <div class="form-group">
+            <div class="fm_img">
+                <img id="coverimg"  alt=""  src="<%= Eatplaces[0].coverimg%>" style="width: 150px;height: 120px;"/>
+                <span>请上传封面</span>
+            </div>
+            <div>
+                <!-- <a href="JavaScript:;" id="file_a">上传封面</a> -->
+                <input type="file" id="file_button"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="fm_img">
+                <img id="coverimg1"  alt=""  src="<%= Eatplaces[0].coverimg1%>" style="width: 150px;height: 120px;"/>
+                <span>请上传本店特色图片1</span>
+            </div>
+            <div>
+                <!-- <a href="JavaScript:;" id="file_a">上传封面</a> -->
+                <input type="file" id="file_button1"/>
+            </div>
+        </div>
+        <div class="form-group">
+                <label for="img1description">decription(特色餐饮介绍信息1)</label>
+                <textarea class="form-control" rows="3" id="img1description"><%= Eatplaces[0].img1description%></textarea>
+        </div>
+        <div class="form-group">
+            <div class="fm_img">
+                <img id="coverimg2"  alt=""  src="<%= Eatplaces[0].coverimg2%>" style="width: 150px;height: 120px;"/>
+                <span>请上传本店特色图片2</span>
+            </div>
+            <div>
+                <!-- <a href="JavaScript:;" id="file_a">上传封面</a> -->
+                <input type="file" id="file_button2"/>
+            </div>
+        </div>
+        <div class="form-group">
+                <label for="img2description">decription(特色餐饮介绍信息2)</label>
+                <textarea class="form-control" rows="3" id="img2description"><%= Eatplaces[0].img2description%></textarea>
+            </div>
+        <div class="form-group">
+            <label for="spend">Spend（人均消费）</label>
+            <input type="text" class="form-control" id="spend" placeholder="spend" value="<%= Eatplaces[0].spend%>">
+        </div>
+        <div class="form-group">
+            <label for="characteristic">Characteristic（餐饮特色）</label>
+            <input type="text" class="form-control" id="characteristic" placeholder="characteristic" value="<%= Eatplaces[0].characteristic%>">
+        </div>
+        <button  class="btn btn-default" id="btn">Submit</button>
+</div>
+</body>
+</html>

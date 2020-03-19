@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Dashboard Template for Bootstrap</title>
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+        <link href="css/dashboard.css" rel="stylesheet">
+        <script src="js/ie-emulation-modes-warning.js"></script>
+        <script src="/js/common.js"></script>
+      </head>
+      <script>
+        $(function(){
+          var admin = getCookie('username')
+          console.log(admin)
+          $('#admin').html('欢迎进行管理：'+admin)
+        $("#exit").on('click',function(){
+			   $.get('/exit',function(data){
+				   if(data == 1){
+					   window.location.href = '/login'
+				   }else{
+					   alert('退出系统失败')
+				   }
+				    console.log(data)
+			   })
+		   })
+        })
+
+      </script>
+</head>
+<body>
+  <%-include('adminheader.ejs')%>
+      <div class="container-fluid">
+        <div class="row">
+          <%-include('adminslide_left.ejs')%>
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">餐饮季度营业额数据表</h2>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>_id</th>
+                    <th>title</th>
+                    <th>saleNum</th>
+                    <th>spend</th>
+                    <th>Total Money</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% if(Eatplaces.length){ %>
+                        <%for(var i =0 ;i < Eatplaces.length ;i++){%>
+                  <tr>
+                    <td><%=Eatplaces[i]._id%></td>
+                    <td><%=Eatplaces[i].title%></td>
+                    <td><%=Eatplaces[i].salenum%></td>
+                    <td>￥<%=Eatplaces[i].spend%></td>
+                    <td>￥<%=Eatplaces[i].spend*Eatplaces[i].salenum%></td>
+                    <!-- <td><button class="btn btn-danger delete"  >删除</button></td> -->
+                  </tr>
+                        <%}%> 
+                  <%}%>   
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+      <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

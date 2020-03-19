@@ -1,0 +1,19 @@
+<% if(Eatplaces.length){ %>
+    <%for(var i =0 ;i < Eatplaces.length ;i++){%>
+<figure>
+    <a href="/fooddetail/<%= Eatplaces[i].id %>"><img src="<%= Eatplaces[i].coverimg %>" alt="加载失败" title="点击查看本店详情" style="width: 100%;height: 239px;"></a>
+    <figcaption>
+        <div class="tour_title">
+            <strong class="title" style="color: rgb(47, 120, 255);">&lt;<%= Eatplaces[i].title %>&gt;</strong>
+            <%= Eatplaces[i].characteristic %>
+            <!-- &lt和&gt是尖括号 -->
+        </div>
+        <div>
+            <em class="sat">季度销售 <%= Eatplaces[i].salenum %></em>
+            <span class="price">人均￥ <strong><%= Eatplaces[i].spend %></strong> 起</span>
+        </div>
+        <div class="type">点击查看详情</div>
+    </figcaption>
+</figure>
+    <%}%>
+<%}%>

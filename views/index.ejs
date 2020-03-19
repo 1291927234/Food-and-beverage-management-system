@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width-device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<!-- 界面设定，页面大小屏幕等宽，初始缩放比例，允许缩放最小、最大比例，是否可以缩放 -->
+	<script src="js/jquery-2.1.1.min.js"></script>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
+	<title>餐饮查询系统-响应式</title>
+	<style>
+		 figure img:hover{
+			opacity: 0.5;
+		}
+		.condition{
+			margin: 10px;
+			padding: 10px;
+			/* text-align: center; */
+		}
+	</style>
+	<script>
+		$(function(){
+			function getCookie(name){
+    			//可以搜索RegExp和match进行学习
+    		var arr,reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    			if (arr = document.cookie.match(reg)) {
+       				 return unescape(arr[2]);
+   				} else {
+       			 return null;
+   				 }
+			}
+			var name = getCookie("username")
+			console.log(name)
+			$("#username").html("欢迎您："+name)
+			// $('#myModal').modal('hide')
+   			$("#btn").on('click',function(){
+    			var value = $("#search").val()
+    			$.get("/searchResult/"+value,function(data){
+					console.log(data)
+        			if(data ==-2){
+						alert("为找到相应的餐饮服务")
+						window.location = '/index'
+						window.close()
+					}
+					else{
+						window.location.href="/searchResult/"+value
+					}
+    })
+   }) 
+   		$("#confirm").on('click',function(){
+			   var type = $('#type option:selected').val()
+			   var location = $('#location option:selected').val()
+			   var lowPrice = $('#price0').val()
+			   var highPrice = $('#price1').val()
+			   var saleLowNum = $('#num0').val()
+			   var saleHighNum = $('#num1').val()
+			   if(lowPrice ===''){
+				   lowPrice =-1
+			   }
+			   if(highPrice ===''){
+				   highPrice =-1
+			   }
+			   if(saleLowNum ===''){
+				   saleLowNum=-1
+			   }
+			   if(saleHighNum ===''){
+				   saleHighNum =-1
+			   }
+			   console.log(location,lowPrice,saleLowNum,type)
+			   $.get('/conditionResult/'+location+'/'+type+'/'+lowPrice+'/'+highPrice+'/'+saleLowNum+'/'+saleHighNum,function(data){
+				   if(data == -1){
+					   alert("亲亲，未查询到结果，请试一下别的呗")
+					    window.location = '/index'
+						window.close()
+				   }
+				   else if(data == -2){
+					    alert("亲亲，请您检查一下数据完善了嘛呗")
+					    window.location = '/index'
+						window.close()
+				   }
+				   else {
+						window.location ='/conditionResult/'+location+'/'+type+'/'+lowPrice+'/'+highPrice+'/'+saleLowNum+'/'+saleHighNum
+				   }
+				   console.log(data)
+			   })
+		   })
+		   $("#exit").on('click',function(){
+			   $.get('/exit',function(data){
+				   if(data == 1){
+					   window.location.href = '/login'
+				   }else{
+					   alert('退出系统失败')
+				   }
+				    console.log(data)
+			   })
+		   })
+})
+	</script>
+</head>
+
+<body>
+	<header id="header">
+		<div class="center">
+			<h1 class="logo">餐饮信息</h1>
+			
+			<nav class="link">
+				<li><a href="#" id="exit"><span class="xs-hidden" style="float: left;">退出系统</span></a></li>
+			<h2 class="none">网站导航</h2><!-- 完善大纲，隐藏标题 -->
+			<ul >
+				<li class="active"><a href="/index">全部</a></li>
+				<li><a href="/information"><span class="xs-hidden">蛋糕</span>奶茶</a></li>
+				<li><a href="/ticket">自助餐<span class="xs-hidden"></span></a></li>
+				<li><a href="/about"><span class="xs-hidden">小吃快餐</span></a></li>
+				<!-- <li><a href="#">烧烤<span class="xs-hidden">烤肉</span></a></li> -->
+				<!-- <li><a href="#">火锅<span class="xs-hidden"></span></a></li> -->
+				<li><a href="#" data-toggle="modal" data-target="#myModal">综合筛选<span class="xs-hidden"></span></a></li>
+			</ul>
+			</nav>
+			<h4 style="float: right; line-height: 50px;margin-right: 40px; color: blanchedalmond;" id="username"></h4>
+		 </div>
+	</header>
+	<div id="adver">
+		<img src="img/1.png" alt="">
+		<div class="center"></div>
+		<div class="center copy">
+			<input type="text" class="search" placeholder="请输入想要查询的餐饮信息" id="search">
+			<button class="button"  id="btn">搜索</button>
+		</div>
+	</div>
+
+	<div id="tour">
+		<section class="center">
+			<h2>今日热门餐饮</h2>
+			<p>火锅，自助，牛排，奶茶，主题套餐，双人套餐，情侣套餐更多惊喜等你来发现哟</p>
+		</section>
+		<%- include('indexcontent.ejs')%>
+	</div>
+	<!-- 模态框 -->
+<!-- Button trigger modal -->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-show="false">
+	<div class="modal-dialog " role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+		</div>
+		<div class="modal-body" style="width: 1000px">
+			<div class="condition">
+				<span>按地区筛选：</span>
+					<select class="btn btn-default" id="location">
+						<option value="宣州区">宣州区</option>
+						<option value="广德县">广德县</option>
+						<option value="宁国市">宁国市</option>
+						<option value="郎溪县">郎溪县</option>
+						<option value="泾县">泾县</option>
+					</select>
+			</div>
+			<div class="condition">
+				<span>按种类筛选：</span>
+					<select class="btn btn-default" id="type">
+						<option value="1">蛋糕奶茶</option>
+						<option value="2">自助餐</option>
+						<option value="3">火锅</option>
+						<option value="4">小吃快餐</option>
+					</select>
+			</div>
+			<div  class="condition">
+				<span>价格区间：</span>
+				<input type="number"placeholder="最低价" style="width: 85px; " id="price0">&nbsp;至&nbsp;
+				<input type="number"placeholder="最高价" style="width: 85px;" id="price1">	
+			</div>
+			<div  class="condition">
+				<div>
+					<span>销量筛选：</span>
+					<input type="number"placeholder="区间" style="width: 70px;" id="num0">&nbsp;至&nbsp;
+					<input type="number"placeholder="区间" style="width: 70px;" id="num1">	
+				</div>
+			</div>
+			
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		  <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">确认</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+	<%-include('footer.ejs')%>
+</body>
+
+</html>

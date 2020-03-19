@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Dashboard Template for Bootstrap</title>
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+        <link href="css/dashboard.css" rel="stylesheet">
+        <script src="js/ie-emulation-modes-warning.js"></script>
+        <script src="/js/common.js"></script>
+      </head>
+      <script>
+        $(function(){
+          var admin = getCookie('username')
+        //   console.log(admin)
+          $('#admin').html('欢迎进行管理：'+admin)
+          var _id = null;
+          $("tbody").on('click','.change',function(){
+              var id =  $(this).parent().siblings('td').first().html()
+             var username = $(this).parent().siblings('td').eq(2).html()
+             $("#username").html(username)
+          })
+          $("#confirm").on('click',function(){
+                var power = $("#power").val()
+                var commentPower = $("#commentPower").val()
+                var username = $("#username").html() 
+                // console.log(username)
+                console.log(power,commentPower,username)
+                $.post("/doChangePower",{
+                    "username":username,
+                    "power":power,
+                    "commentpower":commentPower
+             },function(data){
+               if(data ==1){
+                 alert("修改权限成功")
+                 window.location.href = "/showUserPower"
+                 window.close();
+               }
+               else{
+                 alert("修改失败")
+               }
+             })
+        })
+        $("#exit").on('click',function(){
+			   $.get('/exit',function(data){
+				   if(data == 1){
+					   window.location.href = '/login'
+				   }else{
+					   alert('退出系统失败')
+				   }
+				    console.log(data)
+			   })
+           })
+           
+        })
+
+      </script>
+</head>
+<body>
+  <%-include('adminheader.ejs')%>
+      <div class="container-fluid">
+        <div class="row">
+          <%-include('adminslide_left.ejs')%>
+          <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">用户权限数据表</h2>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>_id</th>
+                    <th>power</th>
+                    <th>Usersname</th>
+                    <th>commentPower</th>
+                    <th>operate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% if(Users.length){ %>
+                        <%for(var i =0 ;i < Users.length ;i++){%>
+                  <tr>
+                    <td><%=Users[i]._id%></td>
+                    <td><%=Users[i].power%></td>
+                    <td><%=Users[i].username%></td>
+                    <td><%=Users[i].commentpower%></td>   
+                    <td><button class="btn btn-warning change" data-toggle="modal" data-target="#myModal">修改权限</button></td>
+                  </tr>
+                        <%}%> 
+                  <%}%>   
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  <!-- 模态框 -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-show="false">
+	<div class="modal-dialog " role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  <h4 class="modal-title" id="myModalLabel">权限修改</h4>
+		</div>
+		<div class="modal-body" >
+			<div class="condition">
+                <h3>
+                    <span>username：&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span id="username"></span>
+                </h3>
+			</div>
+			<div class="condition">
+                <h3>
+                    <span>power：</span>
+                    <input type="text"  id="power" />
+                </h3>
+			</div>
+			<div class="condition">
+                <h3>
+                    <span>commentPower：</span>
+                    <input type="text"  id="commentPower"/>
+                </h3>
+			</div>
+			
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		  <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">确认</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+      <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+      <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

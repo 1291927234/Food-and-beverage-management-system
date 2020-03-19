@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: url('/img/timg.jfif');
+            /* opacity: 0.6; */
+            
+        }
+        h2{
+            text-align: center;
+            font-size: 40px;
+            font-weight: 6px;
+            color: gold;
+            text-shadow: 4px 4px 6px yellowgreen;
+        }
+        .food{
+            width: 500px;
+            height: 430px;
+            border: 1px solid gray;
+            margin: 20px;
+            background-color: rgba(128, 128, 128, 0.705);
+            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.534);
+            text-overflow: hidden;
+
+        }
+        
+    </style>
+</head>
+<body>
+    <h2>为您筛选到以下结果</h2>
+    <div class="food">
+    <% if(huoguo.length){ %>
+        <%for(var i =0 ;i < huoguo.length ;i++){%>
+    <figure>
+        <a href="/fooddetail/<%= huoguo[i].id %>"><img src="<%= huoguo[i].coverimg %>" alt="加载失败" title="点击查看本店详情" style="width:auto"></a>
+        <figcaption>
+            <div class="tour_title">
+                <strong class="title" style="color: rgb(47, 120, 255);">&lt;<%= huoguo[i].title %>&gt;</strong>
+                <%= huoguo[i].characteristic %>
+                <!-- &lt和&gt是尖括号 -->
+            </div>
+            <div>
+                <em class="sat">季度销售 <%= huoguo[i].salenum %></em>
+                <span class="price">人均￥ <strong><%= huoguo[i].spend %></strong> 起</span>
+            </div>
+            <div class="type">点击查看详情</div>
+        </figcaption>
+    </figure>
+        <%}%>
+    <%}%>
+</div>
+</body>
+</html>
